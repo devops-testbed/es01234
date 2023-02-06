@@ -60,7 +60,8 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           title: ${{ vars.test_issue_title }}
-          assignees: @test-team
+          assignees: |
+            @devops-testbed/test-team1
           body: |
             ## Test Issue
           labels: |
