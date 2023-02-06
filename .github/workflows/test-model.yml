@@ -5,9 +5,13 @@ on:
   workflow_dispatch:
   
 jobs:
+
   test:
     if: github.repository != 'ersilia-os/eos-template'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     steps:
       - name: Checkout persist credentials
         uses: actions/checkout@master
