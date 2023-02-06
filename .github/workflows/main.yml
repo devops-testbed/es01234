@@ -1,0 +1,16 @@
+name: send slack message
+on:
+  issues: [created]
+
+  jobs:
+	  slack:
+		  runs-on: ubuntu-latest
+      steps:
+        - name: post slack
+          uses: slackapi/slack-github-action@v1.23.0
+            env:
+              SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+            with:
+              slack-message: |
+                ${{ steps.create_issue.outputs.issue_url }} created.
+              channel-id: ${{ vars.slack_channel }}
