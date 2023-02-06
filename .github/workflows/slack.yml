@@ -3,8 +3,8 @@ on:
   issues: [created]
 
   jobs:
-	  slack:
-		  runs-on: ubuntu-latest
+    slack:
+      runs-on: ubuntu-latest
       steps:
         - name: post slack
           uses: slackapi/slack-github-action@v1.23.0
