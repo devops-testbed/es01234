@@ -36,15 +36,25 @@ jobs:
           
       - name: Create an issue
         uses: actions-ecosystem/action-create-issue@v1
+        id: create_issue 
         with:
           github_token: ${{ secrets.github_token }}
           title: ${{ vars.test_issue_title }}
           assignees: |
-            @devops-testbed/test-team1
+            ${{ vars.assignees }}
           body: |
             ## Test Issue
           labels: |
             test
+            
+      - name: Notify push
+        uses: actions-ecosystem/action-slack-notifier@v1
+        with:
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          message: |
+            @${{ steps.create_issue.outputs.issue_url }} created.
+          channel: $({vars.slack_channel} )
+          
       - name: Install ersilia
         run: |
           source activate
