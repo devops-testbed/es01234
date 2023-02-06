@@ -12,5 +12,5 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
         with:
           slack-message: |
-              ${{ steps.create_issue.outputs.issue_url }} created.
+              "The URL of the newly created issue is: https://github.com/${{ github.repository }}/issues/${{ github.event.issue.number }} created."
           channel-id: ${{ vars.slack_channel }}
