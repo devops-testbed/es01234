@@ -46,15 +46,7 @@ jobs:
             ## Test Issue
           labels: |
             test
-            
-      - name: Notify push
-        uses: slackapi/slack-github-action@v1.23.0
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
-        with:
-          slack-message: |
-            ${{ steps.create_issue.outputs.issue_url }} created.
-          channel-id: ${{ vars.slack_channel }}
+
           
       - name: Install ersilia
         run: |
