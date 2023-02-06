@@ -48,12 +48,13 @@ jobs:
             test
             
       - name: Notify push
-        uses: actions-ecosystem/action-slack-notifier@v1
+        uses: slackapi/slack-github-action@v1.23.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
         with:
-          slack_token: ${{ secrets.SLACK_TOKEN }}
-          message: |
+          slack-message: |
             @${{ steps.create_issue.outputs.issue_url }} created.
-          channel: $({vars.slack_channel} )
+          channel-id: $({vars.slack_channel} )
           
       - name: Install ersilia
         run: |
