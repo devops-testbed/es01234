@@ -34,13 +34,6 @@ jobs:
           git-lfs install
           conda install gh -c conda-forge
           
-      - name: Shuffle assignees
-        id: shuffle
-        run: |
-          import random
-          assignees = "${{ vars.assignees }}".splitlines()
-          random.shuffle(assignees)
-          echo "::set-output name=shuffled_assignee::" + assignees[0]
           
       - name: Create an issue
         uses: actions-ecosystem/action-create-issue@v1
@@ -49,9 +42,9 @@ jobs:
           github_token: ${{ secrets.github_token }}
           title: ${{ vars.test_issue_title }}
           assignees: |
-            $(echo ${{ vars.assignees }} | jq --raw-input 'split("\n") | shuffle | .[0]')
+            $(echo "${{ vars.assignees }}" | tr '\n' ' ' | awk '{split($0,a," "); print a[int(rand()*(NR+1))]}')
           body: |
-            ## Test Issue $(echo ${{ vars.assignees }} | jq --raw-input 'split("\n") | shuffle | .[0]')
+            ## Test Issue $(echo "${{ vars.assignees }}" | tr '\n' ' ' | awk '{split($0,a," "); print a[int(rand()*(NR+1))]}')
           labels: |
             test
 
