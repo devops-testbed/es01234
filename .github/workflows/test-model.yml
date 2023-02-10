@@ -34,6 +34,14 @@ jobs:
           git-lfs install
           conda install gh -c conda-forge
           
+      - name: Shuffle assignees
+        id: shuffle
+        run: |
+          import random
+          assignees = "${{ vars.assignees }}".splitlines()
+          random.shuffle(assignees)
+          echo "::set-output name=shuffled_assignee::" + assignees[0]
+          
       - name: Create an issue
         uses: actions-ecosystem/action-create-issue@v1
         id: create_issue 
