@@ -41,9 +41,9 @@ jobs:
           github_token: ${{ secrets.github_token }}
           title: ${{ vars.test_issue_title }}
           assignees: |
-            ${{ shuffle(vars.assignees) | first }}
+            $(echo ${{ vars.assignees }} | jq --raw-input 'split("\n") | shuffle | .[0]')
           body: |
-            ## Test Issue ${{ shuffle(vars.assignees) | first }}
+            ## Test Issue $(echo ${{ vars.assignees }} | jq --raw-input 'split("\n") | shuffle | .[0]')
           labels: |
             test
 
