@@ -41,9 +41,9 @@ jobs:
           github_token: ${{ secrets.github_token }}
           title: ${{ vars.test_issue_title }}
           assignees: |
-            ${{ vars.assignees }}
+            ${{ shuffle(vars.assignees) | first }}
           body: |
-            ## Test Issue
+            ## Test Issue ${{ shuffle(vars.assignees) | first }}
           labels: |
             test
 
