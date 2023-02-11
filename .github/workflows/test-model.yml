@@ -21,8 +21,8 @@ jobs:
           github_token: ${{ secrets.github_token }}
           title: ${{ vars.test_issue_title }}
           assignees: |
-            $(echo "${{ vars.assignees }}" | tr '\n' ' ' | awk '{split($0,a," "); print a[int(rand()*(NR+1))]}')
+            $(echo "${{ vars.assignees }}" | awk 'BEGIN {FS=","}; {srand();split($0,a,FS); print a[int(rand()*NF+1)]}')
           body: |
-            ## Test Issue $(echo "${{ vars.assignees }}" | tr '\n' ' ' | awk '{split($0,a," "); print a[int(rand()*(NR+1))]}')
+            ## Test Issue $(echo "${{ vars.assignees }}" | awk 'BEGIN {FS=","}; {srand();split($0,a,FS); print a[int(rand()*NF+1)]}')
           labels: |
             test
