@@ -14,17 +14,20 @@ jobs:
       issues: write
 
     steps:
+      - name: Shuffle assignees
+        id: shuffle
+        run: |
+          assignees = $(echo "${{ vars.assignees }}" | awk 'BEGIN {FS=","}; {srand();split($0,a,FS); print a[int(rand()*NF+1)]}')
+          echo "::set-output name=shuffled_assignee::" + assignees[0]
           
       - name: Create an issue
         uses: actions-ecosystem/action-create-issue@v1
         id: create_issue 
-        env:
-          assignees: $(echo "${{ vars.assignees }}" | awk 'BEGIN {FS=","}; {srand();split($0,a,FS); print a[int(rand()*NF+1)]}')
         with:
           github_token: ${{ secrets.github_token }}
           title: ${{ vars.test_issue_title }}
-          assignees: ${{env.assignees}}
+          assignees: ${{ steps.shuffle.outputs.shuffled_assignee }}
           body: |
-            ## Test Issue $env.assignees
+            ## Test Issue ${{ steps.shuffle.outputs.shuffled_assignee }}
           labels: |
             test
