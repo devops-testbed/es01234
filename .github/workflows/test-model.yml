@@ -18,7 +18,8 @@ jobs:
         id: shuffle
         run: |
           export assignees=$(echo "${{ vars.assignees }}" | awk 'BEGIN {FS=","}; {srand();split($0,a,FS); print a[int(rand()*NF+1)]}')
-          echo "::set-output name=shuffled_assignee:: $assignees"
+          echo "$assignees" >> $GITHUB_STEP_SUMMARY
+          echo "shuffled_assignee=$assignees" >> $GITHUB_OUTPUT
           
       - name: Create an issue
         uses: actions-ecosystem/action-create-issue@v1
