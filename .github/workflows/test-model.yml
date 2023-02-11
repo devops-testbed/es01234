@@ -12,17 +12,19 @@ jobs:
     permissions:
       contents: read
       issues: write
+
     steps:
           
       - name: Create an issue
         uses: actions-ecosystem/action-create-issue@v1
         id: create_issue 
+        env:
+          assignees: $(echo "${{ vars.assignees }}" | awk 'BEGIN {FS=","}; {srand();split($0,a,FS); print a[int(rand()*NF+1)]}')
         with:
           github_token: ${{ secrets.github_token }}
           title: ${{ vars.test_issue_title }}
-          assignees: |
-            $(echo "${{ vars.assignees }}" | awk 'BEGIN {FS=","}; {srand();split($0,a,FS); print a[int(rand()*NF+1)]}')
+          assignees: ${{assignees}}
           body: |
-            ## Test Issue $(echo "${{ vars.assignees }}" | awk 'BEGIN {FS=","}; {srand();split($0,a,FS); print a[int(rand()*NF+1)]}')
+            ## Test Issue $assignees
           labels: |
             test
